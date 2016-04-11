@@ -41,7 +41,7 @@ public class ClientConnection extends Thread {
 		try {
 			in = socket.getInputStream();
 			while (true) {
-				coder.read(in).effectClient(this);
+				coder.read(in).effectClient(client);
 			}
 		} catch (IOException | BadDataException e) {
 			System.out.println("Disconnecting " + socket + " in read because " + e);

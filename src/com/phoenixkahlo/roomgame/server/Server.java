@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.phoenixkahlo.roomgame.networking.RoomGameSendableCoder;
 import com.phoenixkahlo.roomgame.networking.ServerConnection;
 import com.phoenixkahlo.roomgame.networking.core.SendableCoder;
 import com.phoenixkahlo.roomgame.networking.core.Waiter;
@@ -22,7 +23,7 @@ public class Server {
 	private Waiter waiter;
 	
 	public Server(int port) {
-		coder = new SendableCoder();
+		coder = new RoomGameSendableCoder();
 		connections = new ArrayList<ServerConnection>();
 		waiter = new Waiter(this::connect, port);
 	}

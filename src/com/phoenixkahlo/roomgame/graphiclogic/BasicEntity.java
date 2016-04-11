@@ -83,7 +83,7 @@ public class BasicEntity implements Entity {
 	}
 
 	@Override
-	public void init(GameContainer container) throws SlickException {}
+	public void init() throws SlickException {}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {}

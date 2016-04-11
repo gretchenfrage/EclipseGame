@@ -20,6 +20,7 @@ public class ServerConnection extends Thread {
 		this.socket = socket;
 		this.server = server;
 		this.coder = coder;
+		Thread.currentThread().setUncaughtExceptionHandler((t, e) -> disconnect());
 	}
 
 	/*
