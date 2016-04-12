@@ -10,6 +10,9 @@ import com.phoenixkahlo.roomgame.networking.core.BadDataException;
 import com.phoenixkahlo.roomgame.networking.core.Sendable;
 import com.phoenixkahlo.roomgame.networking.core.SendableCoder;
 
+/**
+ * A client's connection to the server
+ */
 public class ClientConnection extends Thread {
 
 	private Socket socket;

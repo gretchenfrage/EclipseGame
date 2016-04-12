@@ -1,4 +1,4 @@
-package com.phoenixkahlo.roomgame.graphiclogic;
+package com.phoenixkahlo.roomgame.client;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;

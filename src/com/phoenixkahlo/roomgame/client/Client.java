@@ -2,9 +2,10 @@ package com.phoenixkahlo.roomgame.client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -12,8 +13,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import com.phoenixkahlo.roomgame.graphiclogic.Background;
-import com.phoenixkahlo.roomgame.graphiclogic.Entity;
 import com.phoenixkahlo.roomgame.networking.ClientConnection;
 import com.phoenixkahlo.roomgame.networking.RoomGameSendableCoder;
 import com.phoenixkahlo.roomgame.networking.core.SendableCoder;
@@ -50,8 +49,7 @@ public class Client extends BasicGame {
 	private ClientConnection connection;
 	
 	private Map<String, Entity> entities;
-	//TODO: make this a list
-	private Stack<QueuedDirective> queuedDirectives;
+	private List<ClientPhysicsInjection> physicsQueue;
 	
 	public Client(String ip, int port) {
 		super("Game");
@@ -63,15 +61,17 @@ public class Client extends BasicGame {
 			disconnected();
 		}
 		entities = new HashMap<String, Entity>();
-		queuedDirectives = new Stack<QueuedDirective>();
+		physicsQueue = new ArrayList<ClientPhysicsInjection>();
 	}
 	
 	public void addEntity(String name, Entity entity) {
 		entities.put(name, entity);
 	}
 	
-	public void queueDirective(QueuedDirective directive) {
-		
+	public void queueDirective(ClientPhysicsInjection injection) {
+		synchronized (physicsQueue) {
+			physicsQueue.add(injection);
+		}
 	}
 	
 	@Override
@@ -85,9 +85,13 @@ public class Client extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		deltaSum += delta;
-		while (!queuedDirectives.isEmpty()) {
-			queuedDirectives.pop().implement(this, deltaSum);
+		
+		synchronized (physicsQueue) {
+			for (int i = physicsQueue.size() - 1; i >= 0; i--) {
+				if (physicsQueue.get(i).isReady(deltaSum)) physicsQueue.remove(i).inject(this, deltaSum);
+			}
 		}
+		
 		for (Entity entity : entities.values()) {
 			entity.update(container, delta);
 		}

@@ -10,6 +10,9 @@ import com.phoenixkahlo.roomgame.networking.core.Sendable;
 import com.phoenixkahlo.roomgame.networking.core.SendableCoder;
 import com.phoenixkahlo.roomgame.server.Server;
 
+/**
+ * A server's connection to the client
+ */
 public class ServerConnection extends Thread {
 
 	private Socket socket;
