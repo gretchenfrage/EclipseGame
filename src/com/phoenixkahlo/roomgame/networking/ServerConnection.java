@@ -26,7 +26,7 @@ public class ServerConnection extends Thread {
 		Thread.currentThread().setUncaughtExceptionHandler((t, e) -> disconnect());
 	}
 
-	/*
+	/**
 	 * Warning: may result in removal of this connection from the server
 	 */
 	public void send(Sendable sendable) {
