@@ -35,7 +35,7 @@ public class GlidingEntity extends BasicEntity {
 	}
 	
 	@Override
-	public void update(GameContainer container, int delta) throws SlickException {
+	public void update(int delta) throws SlickException {
 		setX(getX() + xVel * delta);
 		setY(getY() + yVel * delta);
 	}

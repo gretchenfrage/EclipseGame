@@ -42,14 +42,14 @@ public class Client extends BasicGame {
 		}
 	}
 	
-	private int deltaSum = 0;
+	private int time = 0;
 	
 	private SendableCoder coder;
 	private Background background;
 	private ClientConnection connection;
 	
 	private Map<String, Entity> entities;
-	private List<ClientPhysicsInjection> physicsQueue;
+	private List<PhysicsChangeDirective> physicsDirectives;
 	
 	public Client(String ip, int port) {
 		super("Game");
@@ -61,16 +61,20 @@ public class Client extends BasicGame {
 			disconnected();
 		}
 		entities = new HashMap<String, Entity>();
-		physicsQueue = new ArrayList<ClientPhysicsInjection>();
+		physicsDirectives = new ArrayList<PhysicsChangeDirective>();
 	}
 	
 	public void addEntity(String name, Entity entity) {
 		entities.put(name, entity);
 	}
 	
-	public void queueDirective(ClientPhysicsInjection injection) {
-		synchronized (physicsQueue) {
-			physicsQueue.add(injection);
+	public Entity getEntity(String name) {
+		return entities.get(name);
+	}
+	
+	public void queueDirective(PhysicsChangeDirective directive) {
+		synchronized (physicsDirectives) {
+			physicsDirectives.add(directive);
 		}
 	}
 	
@@ -84,16 +88,17 @@ public class Client extends BasicGame {
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		deltaSum += delta;
+		time += delta;
 		
-		synchronized (physicsQueue) {
-			for (int i = physicsQueue.size() - 1; i >= 0; i--) {
-				if (physicsQueue.get(i).isReady(deltaSum)) physicsQueue.remove(i).inject(this, deltaSum);
+		synchronized (physicsDirectives) {
+			for (int i = physicsDirectives.size() - 1; i >= 0; i--) {
+				if (physicsDirectives.get(i).getTime() >= time)
+					physicsDirectives.remove(i).implement(this, time - physicsDirectives.get(i).getTime());
 			}
 		}
 		
 		for (Entity entity : entities.values()) {
-			entity.update(container, delta);
+			entity.update(delta);
 		}
 	}
 	

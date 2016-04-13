@@ -10,6 +10,6 @@ public interface Entity {
 
 	void render(GameContainer container, Graphics g) throws SlickException;
 
-	void update(GameContainer container, int delta) throws SlickException;
+	void update(int delta) throws SlickException;
 	
 }

@@ -30,7 +30,7 @@ public class SendableCoder {
 	}
 	
 	public Sendable read(InputStream in) throws IOException, BadDataException {
-		int id = BinUtils.readInt(in);
+		int id = StreamUtils.readInt(in);
 		if (entries.containsKey(id)) {
 			return entries.get(id).create(in);
 		} else {
@@ -41,7 +41,7 @@ public class SendableCoder {
 	public void write(OutputStream out, Sendable sendable) throws IOException, RuntimeException {
 		for (Map.Entry<Integer, SendableCoderEntry> entry : entries.entrySet()) {
 			if (entry.getValue().isType(sendable)) {
-				BinUtils.writeInt(entry.getKey(), out);
+				StreamUtils.writeInt(entry.getKey(), out);
 				entry.getValue().write(out, sendable);
 				return;
 			}
