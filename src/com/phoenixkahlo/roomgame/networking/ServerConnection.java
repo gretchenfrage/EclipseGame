@@ -39,8 +39,13 @@ public class ServerConnection extends Thread {
 		}
 	}
 	
+	private void init() {
+		send(new SetTime(server.get))
+	}
+	
 	@Override
 	public void run() {
+		init();
 		InputStream in = null;
 		try {
 			in = socket.getInputStream();

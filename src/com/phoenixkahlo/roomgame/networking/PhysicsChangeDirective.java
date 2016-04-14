@@ -1,7 +1,13 @@
-package com.phoenixkahlo.roomgame.client;
+package com.phoenixkahlo.roomgame.networking;
 
 import org.newdawn.slick.SlickException;
 
+import com.phoenixkahlo.roomgame.client.Client;
+
+/**
+ * Directives from the server for the client to do something in the game loop in a way
+ * that ensures time synchronization.
+ */
 public interface PhysicsChangeDirective {
 	
 	/**

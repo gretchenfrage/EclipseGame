@@ -1,4 +1,4 @@
-package com.phoenixkahlo.roomgame.client;
+package com.phoenixkahlo.roomgame.client.entities;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -6,7 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class BasicEntity implements Entity {
+public class BasicEntity implements ClientEntity {
 
 	private Image image;
 	private float x;

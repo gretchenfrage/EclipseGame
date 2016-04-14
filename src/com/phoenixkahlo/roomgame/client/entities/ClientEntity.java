@@ -1,10 +1,10 @@
-package com.phoenixkahlo.roomgame.client;
+package com.phoenixkahlo.roomgame.client.entities;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public interface Entity {
+public interface ClientEntity {
 
 	void init() throws SlickException;
 

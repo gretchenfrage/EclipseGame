@@ -7,22 +7,22 @@ import java.io.OutputStream;
 import org.newdawn.slick.SlickException;
 
 import com.phoenixkahlo.roomgame.client.Client;
-import com.phoenixkahlo.roomgame.client.GlidingEntity;
-import com.phoenixkahlo.roomgame.client.PhysicsChangeDirective;
-import com.phoenixkahlo.roomgame.networking.core.Sendable;
+import com.phoenixkahlo.roomgame.client.entities.GlidingEntity;
 import com.phoenixkahlo.roomgame.networking.core.StreamUtils;
 
-public class VelocityChangeDirective implements PhysicsChangeDirective, Sendable {
-
-	private int time;
+/**
+ * Directive for client to change the movement path of a GlidingEntity
+ */
+public class ChangeEntityGlide extends SendablePhysicsChangeDirective {
+	
 	private float x;
 	private float y;
 	private float xVel;
 	private float yVel;
 	private String id;
 	
-	public VelocityChangeDirective(int time, float x, float y, float xVel, float yVel, String id) {
-		this.time = time;
+	public ChangeEntityGlide(int time, float x, float y, float xVel, float yVel, String id) {
+		super(time);
 		this.x = x;
 		this.y = y;
 		this.xVel = xVel;
@@ -30,8 +30,8 @@ public class VelocityChangeDirective implements PhysicsChangeDirective, Sendable
 		this.id = id;
 	}
 	
-	public VelocityChangeDirective(InputStream in) throws IOException {
-		time = StreamUtils.readInt(in);
+	public ChangeEntityGlide(InputStream in) throws IOException {
+		super(in);
 		x = StreamUtils.readFloat(in);
 		y = StreamUtils.readFloat(in);
 		xVel = StreamUtils.readFloat(in);
@@ -39,11 +39,6 @@ public class VelocityChangeDirective implements PhysicsChangeDirective, Sendable
 		id = StreamUtils.readString(in);
 	}
 	
-	@Override
-	public int getTime() {
-		return time;
-	}
-
 	@Override
 	public void implement(Client client, int delta) throws SlickException {
 		GlidingEntity entity = (GlidingEntity) client.getEntity(id);
@@ -56,22 +51,12 @@ public class VelocityChangeDirective implements PhysicsChangeDirective, Sendable
 
 	@Override
 	public void write(OutputStream out) throws IOException {
-		StreamUtils.writeInt(time, out);
+		super.write(out);
 		StreamUtils.writeFloat(x, out);
 		StreamUtils.writeFloat(y, out);
 		StreamUtils.writeFloat(xVel, out);
 		StreamUtils.writeFloat(yVel, out);
 		StreamUtils.writeString(id, out);
 	}
-
-	@Override
-	public void effectClient(Client client) {
-		client.queueDirective(this);
-	}
-
-	@Override
-	public void effectServer(ServerConnection connection) {
-		throw new RuntimeException();
-	}
-
+	
 }

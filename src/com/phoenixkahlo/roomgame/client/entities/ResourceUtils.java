@@ -1,4 +1,4 @@
-package com.phoenixkahlo.roomgame.utils;
+package com.phoenixkahlo.roomgame.client.entities;
 
 import java.io.InputStream;
 

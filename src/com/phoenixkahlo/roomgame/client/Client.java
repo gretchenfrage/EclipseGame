@@ -13,10 +13,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import com.phoenixkahlo.roomgame.client.entities.ClientEntity;
+import com.phoenixkahlo.roomgame.client.entities.ResourceUtils;
 import com.phoenixkahlo.roomgame.networking.ClientConnection;
+import com.phoenixkahlo.roomgame.networking.PhysicsChangeDirective;
 import com.phoenixkahlo.roomgame.networking.RoomGameSendableCoder;
 import com.phoenixkahlo.roomgame.networking.core.SendableCoder;
-import com.phoenixkahlo.roomgame.utils.ResourceUtils;
 
 public class Client extends BasicGame {
 	
@@ -48,7 +50,7 @@ public class Client extends BasicGame {
 	private Background background;
 	private ClientConnection connection;
 	
-	private Map<String, Entity> entities;
+	private Map<String, ClientEntity> entities;
 	private List<PhysicsChangeDirective> physicsDirectives;
 	
 	public Client(String ip, int port) {
@@ -60,46 +62,47 @@ public class Client extends BasicGame {
 			e.printStackTrace();
 			disconnected();
 		}
-		entities = new HashMap<String, Entity>();
+		entities = new HashMap<String, ClientEntity>();
 		physicsDirectives = new ArrayList<PhysicsChangeDirective>();
 	}
 	
-	public void addEntity(String name, Entity entity) {
+	public synchronized void addEntity(String name, ClientEntity entity) {
 		entities.put(name, entity);
 	}
 	
-	public Entity getEntity(String name) {
+	public ClientEntity getEntity(String name) {
 		return entities.get(name);
 	}
 	
-	public void queueDirective(PhysicsChangeDirective directive) {
-		synchronized (physicsDirectives) {
-			physicsDirectives.add(directive);
-		}
+	public synchronized void queueDirective(PhysicsChangeDirective directive) {
+		physicsDirectives.add(directive);
+		
 	}
 	
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		background.render(container, g);
-		for (Entity entity : entities.values()) {
+		for (ClientEntity entity : entities.values()) {
 			entity.render(container, g);
 		}
 	}
 
 	@Override
-	public void update(GameContainer container, int delta) throws SlickException {
+	public synchronized void update(GameContainer container, int delta) throws SlickException {
 		time += delta;
 		
-		synchronized (physicsDirectives) {
-			for (int i = physicsDirectives.size() - 1; i >= 0; i--) {
-				if (physicsDirectives.get(i).getTime() >= time)
-					physicsDirectives.remove(i).implement(this, time - physicsDirectives.get(i).getTime());
-			}
+		for (int i = physicsDirectives.size() - 1; i >= 0; i--) {
+			if (physicsDirectives.get(i).getTime() >= time)
+				physicsDirectives.remove(i).implement(this, time - physicsDirectives.get(i).getTime());
 		}
 		
-		for (Entity entity : entities.values()) {
+		for (ClientEntity entity : entities.values()) {
 			entity.update(delta);
 		}
+	}
+	
+	public synchronized void setTime(int time) {
+		this.time = time;
 	}
 	
 	@Override
