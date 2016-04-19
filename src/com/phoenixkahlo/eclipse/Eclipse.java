@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 
 public class Eclipse extends BasicGame {
 	
+	private static final int PIXELS_PER_METER = 20;
+	
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer container = new AppGameContainer(new Eclipse(), 700, 700, false);
 		container.setTargetFrameRate(60);
@@ -15,24 +17,34 @@ public class Eclipse extends BasicGame {
 	}
 	
 	private EclipseWorld world;
+	private InputHandler handler;
 	
 	public Eclipse() {
 		super("Eclipse");
+		world = new EclipseWorld();
+		handler = new InputHandler();
+		
+		Human player = new Human();
+		world.addBody(player);
+		handler.setPlayer(player);
 	}
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
-		
+	public void render(GameContainer container, Graphics g) throws SlickException {
+		handler.preRender(container, g, PIXELS_PER_METER);
+		world.render(container, g);
+		handler.postRender(container, g, PIXELS_PER_METER);
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		
+		handler.update(container.getInput(), delta);
+		world.update(delta);
 	}
 	
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		
+		world.init();
 	}
 
 }

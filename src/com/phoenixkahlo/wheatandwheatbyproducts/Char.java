@@ -9,6 +9,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import com.phoenixkahlo.eclipse.ResourceUtils;
+
 public class Char extends Body implements Renderable {
 	
 	public static final float RADIUS = 0.5f;

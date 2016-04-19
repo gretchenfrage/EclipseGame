@@ -1,4 +1,4 @@
-package com.phoenixkahlo.wheatandwheatbyproducts;
+package com.phoenixkahlo.eclipse;
 
 import java.io.InputStream;
 

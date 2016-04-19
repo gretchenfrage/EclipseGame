@@ -4,6 +4,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import com.phoenixkahlo.eclipse.ResourceUtils;
+
 public class Space extends RenderableWorld {
 
 	private Image background;	
