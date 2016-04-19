@@ -1,4 +1,4 @@
-package com.phoenixkahlo.spacegame;
+package com.phoenixkahlo.wheatandwheatbyproducts;
 
 import java.io.InputStream;
 

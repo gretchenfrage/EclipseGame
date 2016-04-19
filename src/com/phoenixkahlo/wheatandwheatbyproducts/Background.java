@@ -1,4 +1,4 @@
-package com.phoenixkahlo.spacegame;
+package com.phoenixkahlo.wheatandwheatbyproducts;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

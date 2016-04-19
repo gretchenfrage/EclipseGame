@@ -1,4 +1,4 @@
-package com.phoenixkahlo.spacegame;
+package com.phoenixkahlo.wheatandwheatbyproducts;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
@@ -11,7 +11,7 @@ import org.newdawn.slick.SlickException;
 
 public class SpaceGame extends BasicGame {
 
-	public static final int WINDOW_SIZE = 800;
+	public static final int WINDOW_SIZE = 700;
 	public static final float PIXELS_PER_METER = 50;
 	
 	/*

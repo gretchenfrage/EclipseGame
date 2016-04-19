@@ -1,4 +1,4 @@
-package com.phoenixkahlo.spacegame;
+package com.phoenixkahlo.wheatandwheatbyproducts;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Circle;
