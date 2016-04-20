@@ -10,8 +10,8 @@ import org.newdawn.slick.Input;
 public class InputHandler {
 	
 	private static final float LINEAR_DAMPING = 20f;
-	private static final float WALK_FORCE = 30f + LINEAR_DAMPING;
-	private static final float SPRINT_FORCE = 50f + LINEAR_DAMPING;
+	private static final float WALK_FORCE = 20f + LINEAR_DAMPING;
+	private static final float SPRINT_FORCE = 30f + LINEAR_DAMPING;
 	private static final float WALK_VELOCITY_LIMIT = 8f;
 	private static final float SPRINT_VELOCITY_LIMIT = 16f;
 			
@@ -26,11 +26,13 @@ public class InputHandler {
 		
 		boolean sprinting = input.isKeyDown(KEY_LSHIFT);
 		
-		Vector2 force = new Vector2(0, 0);
-		if (input.isKeyDown(KEY_A)) force.x -= 1;
-		if (input.isKeyDown(KEY_D)) force.x += 1;
-		if (input.isKeyDown(KEY_W)) force.y -= 1;
-		if (input.isKeyDown(KEY_S)) force.y += 1;
+		Vector2 direction = new Vector2(0, 0);
+		if (input.isKeyDown(KEY_A)) direction.x -= 1;
+		if (input.isKeyDown(KEY_D)) direction.x += 1;
+		if (input.isKeyDown(KEY_W)) direction.y -= 1;
+		if (input.isKeyDown(KEY_S)) direction.y += 1;
+		
+		Vector2 force = direction.copy();
 		force.multiply((sprinting ? SPRINT_FORCE : WALK_FORCE) * delta);
 		
 		Vector2 velocity = player.getLinearVelocity();
@@ -41,8 +43,6 @@ public class InputHandler {
 		if (velocity.y < -velocityLimit && force.y < 0) force.y = 0;
 		
 		player.applyForce(force);
-		
-		player.getFixture(0).getShape().rotate(0.1f);
 	}
 	
 	/**
@@ -55,7 +55,6 @@ public class InputHandler {
 				(float) (container.getWidth() / 2 -center.x),
 				(float) (container.getHeight() / 2 -center.y)
 				);
-		g.scale(pixelsPerMeter, pixelsPerMeter);
 	}
 	
 	/**

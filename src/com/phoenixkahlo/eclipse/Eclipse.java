@@ -4,6 +4,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class Eclipse extends BasicGame {
@@ -32,12 +33,14 @@ public class Eclipse extends BasicGame {
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		handler.preRender(container, g, PIXELS_PER_METER);
-		world.render(container, g);
+		world.render(container, g, PIXELS_PER_METER);
 		handler.postRender(container, g, PIXELS_PER_METER);
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
+		if (container.getInput().isKeyPressed(Input.KEY_ESCAPE)) container.exit();
+		
 		handler.update(container.getInput(), delta);
 		world.update(delta);
 	}

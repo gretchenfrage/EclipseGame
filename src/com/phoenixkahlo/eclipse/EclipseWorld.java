@@ -32,9 +32,9 @@ public class EclipseWorld extends World implements Renderable {
 	}
 
 	@Override
-	public void render(GameContainer container, Graphics g) {
+	public void render(GameContainer container, Graphics g, int pixelsPerMeter) {
 		for (Body body : getBodies()) {
-			if (body instanceof Renderable) ((Renderable) body).render(container, g);
+			if (body instanceof Renderable) ((Renderable) body).render(container, g, pixelsPerMeter);
 		}
 	}
 

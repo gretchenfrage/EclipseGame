@@ -11,7 +11,8 @@ import org.newdawn.slick.SlickException;
 
 public class Human extends Body implements Renderable{
 
-	private static final float RADIUS = 0.75f;
+	private static final double RADIUS = 0.75f;
+	private static final double BASE_ANGLE = 45;
 	
 	private static Image texture;
 	
@@ -21,11 +22,29 @@ public class Human extends Body implements Renderable{
 	}
 	
 	@Override
-	public void render(GameContainer container, Graphics g) {
-		Vector2 coords = getWorldCenter();
-		Vector2f p1 = new Vector2f(coords.subtract(RADIUS, RADIUS));
-		Vector2f p2 = new Vector2f(coords.add(RADIUS, RADIUS));
-		g.drawImage(texture, p1.x, p1.y, p2.x, p2.y, 0, 0, texture.getWidth(), texture.getHeight());
+	public void render(GameContainer container, Graphics g, int pixelsPerMeter) {
+		Vector2 center = getWorldCenter().multiply(pixelsPerMeter);
+		Vector2 p1 = center.copy().subtract(new Vector2(RADIUS, RADIUS).multiply(pixelsPerMeter));
+		Vector2 p2 = center.copy().add(new Vector2(RADIUS, RADIUS).multiply(pixelsPerMeter));
+		g.rotate((float) center.x, (float) center.y, (float) Math.toDegrees(-getAngle()));
+		g.drawImage(
+				texture,
+				(float) p1.x, (float) p1.y, (float) p2.x, (float) p2.y,
+				0, 0, texture.getWidth(), texture.getHeight()
+				);
+		g.rotate((float) center.x, (float) center.y, (float) Math.toDegrees(getAngle()));
+	}
+	
+	public double getAngle() {
+		return getTransform().getRotation();
+	}
+	
+	public void rotate(double theta) {
+		getTransform().rotate(theta, getWorldCenter());
+	}
+	
+	public void setAngle(double theta) {
+		rotate(-theta - getAngle());
 	}
 
 	@Override
