@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -45,7 +46,7 @@ public class EclipseWorld extends World implements Renderable {
 		super.update(delta / 1000f);
 		for (Body body : getBodies()) {
 			if (body instanceof Updatable) ((Updatable) body).postUpdate(delta);
-		}
+		}		
 	}
 
 	@Override
@@ -58,6 +59,16 @@ public class EclipseWorld extends World implements Renderable {
 			}
 		}
 		toInit = null;
+	}
+	
+	/**
+	 * Returns what Platform, if any, the position is resting on, or null if none.
+	 */
+	public Platform standingOn(Vector2 position) {
+		for (Body body : getBodies()) {
+			if (body instanceof Platform && ((Platform) body).standingOn(position)) return (Platform) body;
+		}
+		return null;
 	}
 	
 }

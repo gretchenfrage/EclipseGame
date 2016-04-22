@@ -1,55 +1,62 @@
 package com.phoenixkahlo.eclipse;
 
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Human extends Body implements Renderable{
+public class Human extends StandingBody {
 
-	private static final double RADIUS = 0.75f;
-	private static final double BASE_ANGLE = 45;
-	
+	private static final double RADIUS = 0.5;
+	private static final double WALK_VELOCITY = 12;
+	private static final double SPRINT_VELOCITY = 24;
+	private static final double THRUST_FORCE = 5;
+	private static final double SPRINT_THRUST_FORCE = 15;
+
 	private static Image texture;
 	
-	public Human() {
-		addFixture(new Circle(RADIUS));
-		setMass(MassType.NORMAL);
+	private Vector2 direction = new Vector2(0, 0);
+	private boolean sprinting = false;
+	
+	public void setDirection(double direction) {
+		this.direction = new Vector2(Math.cos(direction), Math.sin(direction));
+	}
+	
+	public void setDirection(Vector2 direction) {
+		this.direction = direction;
+	}
+	
+	public void setSprinting(boolean sprinting) {
+		this.sprinting = sprinting;
 	}
 	
 	@Override
-	public void render(GameContainer container, Graphics g, int pixelsPerMeter) {
-		Vector2 center = getWorldCenter().multiply(pixelsPerMeter);
-		Vector2 p1 = center.copy().subtract(new Vector2(RADIUS, RADIUS).multiply(pixelsPerMeter));
-		Vector2 p2 = center.copy().add(new Vector2(RADIUS, RADIUS).multiply(pixelsPerMeter));
-		g.rotate((float) center.x, (float) center.y, (float) Math.toDegrees(-getAngle()));
-		g.drawImage(
-				texture,
-				(float) p1.x, (float) p1.y, (float) p2.x, (float) p2.y,
-				0, 0, texture.getWidth(), texture.getHeight()
+	public void postUpdate(int delta) {
+		super.postUpdate(delta);
+		if (!onPlatform()) applyForce(
+				direction.copy().multiply(sprinting ? SPRINT_THRUST_FORCE : THRUST_FORCE)
 				);
-		g.rotate((float) center.x, (float) center.y, (float) Math.toDegrees(getAngle()));
-	}
-	
-	public double getAngle() {
-		return getTransform().getRotation();
-	}
-	
-	public void rotate(double theta) {
-		getTransform().rotate(theta, getWorldCenter());
-	}
-	
-	public void setAngle(double theta) {
-		rotate(-theta - getAngle());
 	}
 
 	@Override
+	protected Vector2 getTargetLinearVelocity() {
+		return super.getTargetLinearVelocity().add(
+				direction.copy().multiply(sprinting ? SPRINT_VELOCITY : WALK_VELOCITY)
+				);
+	}
+
+	public Human(EclipseWorld world) {
+		super(world);
+		addFixture(new Circle(RADIUS));
+		setMass(MassType.NORMAL);
+		setBaseAngle((float) Math.toRadians(45));
+	}
+	
+	@Override
 	public void init() throws SlickException {
-		if (texture == null) texture = ResourceUtils.loadImage("sprites/wheat");
+		if (texture == null) texture = ResourceUtils.loadImage("minecraft/wheat");
+		injectTexture(texture, (float) RADIUS * 2, (float) RADIUS * 2);
 	}
 
 }
