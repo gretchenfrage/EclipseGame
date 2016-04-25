@@ -25,7 +25,7 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 	}
 	
 	protected Vector2 getTargetLinearVelocity() {
-		return preUpdatePlatform.toBody().getLinearVelocity(getWorldCenter());
+		return getPlatform().toBody().getLinearVelocity(getWorldCenter());
 	}
 
 	/**
@@ -33,6 +33,13 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 	 */
 	protected boolean onPlatform() {
 		return preUpdatePlatform == postUpdatePlatform && preUpdatePlatform != null;
+	}
+	
+	/**
+	 * Only expected to work correctly if onPlatform() == true in this update cycle
+	 */
+	protected Platform getPlatform() {
+		return preUpdatePlatform;
 	}
 	
 	@Override
@@ -47,7 +54,7 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 			vector.multiply(getMass().getMass()); // The force to apply
 			applyImpulse(vector);
 			vector.multiply(-1); // The inverse force to apply to the platform
-			preUpdatePlatform.toBody().applyImpulse(vector, getWorldCenter());
+			getPlatform().toBody().applyImpulse(vector, getWorldCenter());
 		}
 	}
 

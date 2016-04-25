@@ -11,13 +11,20 @@ public class Human extends StandingBody {
 	private static final double RADIUS = 0.5;
 	private static final double WALK_VELOCITY = 12;
 	private static final double SPRINT_VELOCITY = 24;
-	private static final double THRUST_FORCE = 5;
-	private static final double SPRINT_THRUST_FORCE = 15;
+	private static final double THRUST_FORCE = 0.3;
+	private static final double SPRINT_THRUST_FORCE = 0.8;
 
 	private static Image texture;
 	
 	private Vector2 direction = new Vector2(0, 0);
 	private boolean sprinting = false;
+	
+	public Human(EclipseWorld world) {
+		super(world);
+		addFixture(new Circle(RADIUS));
+		setMass(MassType.NORMAL);
+		setBaseAngle((float) Math.toRadians(45));
+	}
 	
 	public void setDirection(double direction) {
 		this.direction = new Vector2(Math.cos(direction), Math.sin(direction));
@@ -35,7 +42,7 @@ public class Human extends StandingBody {
 	public void postUpdate(int delta) {
 		super.postUpdate(delta);
 		if (!onPlatform()) applyForce(
-				direction.copy().multiply(sprinting ? SPRINT_THRUST_FORCE : THRUST_FORCE)
+				direction.copy().multiply((sprinting ? SPRINT_THRUST_FORCE : THRUST_FORCE) * delta)
 				);
 	}
 
@@ -44,13 +51,6 @@ public class Human extends StandingBody {
 		return super.getTargetLinearVelocity().add(
 				direction.copy().multiply(sprinting ? SPRINT_VELOCITY : WALK_VELOCITY)
 				);
-	}
-
-	public Human(EclipseWorld world) {
-		super(world);
-		addFixture(new Circle(RADIUS));
-		setMass(MassType.NORMAL);
-		setBaseAngle((float) Math.toRadians(45));
 	}
 	
 	@Override

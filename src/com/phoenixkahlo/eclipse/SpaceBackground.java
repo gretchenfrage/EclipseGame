@@ -1,29 +1,25 @@
 package com.phoenixkahlo.eclipse;
 
-import java.util.Random;
-
 import org.dyn4j.geometry.Vector2;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Background {
+public class SpaceBackground implements Renderable {
 
-	private Image texture;
+	private static Image texture;
+	
 	private double width;
 	private double height;
 	
 	private Eclipse eclipse;
 	
-	public Background(Image texture, double width, Eclipse eclipse) {
-		this.texture = texture;
-		this.width = width;
-		this.height = width / texture.getWidth() * texture.getHeight();
+	public SpaceBackground(Eclipse eclipse) {
 		this.eclipse = eclipse;
 	}
 	
+	@Override
 	public void render(GameContainer container, Graphics g, int pixelsPerMeter) throws SlickException {
 		Vector2 min = eclipse.getTranslation().copy().multiply(-1);
 		Vector2 max = min.copy().add(container.getWidth(), container.getHeight());
@@ -32,6 +28,10 @@ public class Background {
 				Math.floor(min.x / width) * width,
 				Math.floor(min.y / height) * height
 				);
+		
+		// [lenny_face.png]
+		min.subtract(1000, 1000);
+		max.add(1000, 1000);
 		
 		for (double x = min.x; x < max.x; x += width) {
 			for (double y = min.y; y < max.y; y += height) {
@@ -42,6 +42,13 @@ public class Background {
 						);
 			}
 		}
+	}
+
+	@Override
+	public void init() throws SlickException {
+		if (texture == null) texture = ResourceUtils.loadImage("gui/space2");
+		this.width = 1000;
+		this.height = width / texture.getWidth() * texture.getHeight();
 	}
 	
 }

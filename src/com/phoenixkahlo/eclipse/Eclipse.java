@@ -12,64 +12,75 @@ import com.phoenixkahlo.eclipse.ships.BasicShip2;
 
 public class Eclipse extends BasicGame {
 	
-	private static  int PIXELS_PER_METER = 20;
+	private static int PIXELS_PER_METER = 20;
 	
 	public static void main(String[] args) throws SlickException {
-		AppGameContainer container = new AppGameContainer(new Eclipse(), 1280, 800, true);
+		AppGameContainer container = new AppGameContainer(new Eclipse(), 1920, 1080, true);
 		container.setTargetFrameRate(60);
 		container.setVSync(true);
 		container.start();
 	}
 	
 	private EclipseWorld world;
-	private InputHandler handler;
-	private Background background;
+	private GameContainer container;
+	private LocalPlayer player;
 	
 	private Vector2 translation;
-	
+		
 	public Eclipse() {
 		super("Eclipse");
+		
 		world = new EclipseWorld();
+		
+		world.add(new SpaceBackground(this), RenderLayer.Background);
 
 		Ship ship = new BasicShip2();
-		world.addBody(ship);
-		ship.applyForce(new Vector2(500_0000, 0));
-		ship.applyTorque(50000);
+		world.add(ship, RenderLayer.Ships);
+		ship.applyForce(new Vector2(700_0400, 0));
+		ship.applyTorque(500000);
 		
-		Human player = new Human(world);
-		world.addBody(player);
-		
-		handler = new InputHandler(player, this);
+		player = new LocalPlayer(this);
+		world.add(player, RenderLayer.Humans);
+	}
+	
+	public GameContainer getContainer() {
+		return container;
+	}
+	
+	public EclipseWorld getWorld() {
+		return world;
+	}
+	
+	public Vector2 getTranslation() {
+		return translation;
+	}
+	
+	public int getPixelsPerMeter() {
+		return PIXELS_PER_METER;
 	}
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		
-		translation = handler.getTranslation(container, PIXELS_PER_METER);
+		translation = player.getTranslation(container, getPixelsPerMeter());
 		g.translate((float) translation.x, (float) translation.y);
+		Vector2 position = player.getWorldCenter().multiply(getPixelsPerMeter());
+		g.rotate((float) position.x, (float) position.y, (float) Math.toDegrees(player.getRotation()));
 		
-		background.render(container, g, PIXELS_PER_METER);
-		handler.preRender(container, g, PIXELS_PER_METER);
-		world.render(container, g, PIXELS_PER_METER);
-		handler.postRender(container, g, PIXELS_PER_METER);
+		world.render(container, g, getPixelsPerMeter());
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		if (container.getInput().isKeyPressed(Input.KEY_ESCAPE)) container.exit();
 		
-		handler.update(container.getInput(), delta);
-		world.update(delta);
+		world.completeUpdate(delta);
 	}
 	
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		world.init();
-		background = new Background(ResourceUtils.loadImage("gui/space2"), 1000, this);
-	}
+		this.container = container;
 
-	public Vector2 getTranslation() {
-		return translation;
+		world.init();
 	}
 
 }
