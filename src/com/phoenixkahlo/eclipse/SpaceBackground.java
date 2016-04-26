@@ -6,11 +6,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/**
+ * A background that renders a tiling image of space.
+ */
 public class SpaceBackground implements Renderable {
 
 	private static Image texture;
 	
-	private double width;
+	private double width = 500;
 	private double height;
 	
 	private Eclipse eclipse;
@@ -19,19 +22,16 @@ public class SpaceBackground implements Renderable {
 		this.eclipse = eclipse;
 	}
 	
+	
 	@Override
-	public void render(GameContainer container, Graphics g, int pixelsPerMeter) throws SlickException {
-		Vector2 min = eclipse.getTranslation().copy().multiply(-1);
-		Vector2 max = min.copy().add(container.getWidth(), container.getHeight());
+	public void render(GameContainer container, Graphics g) throws SlickException {
+		Vector2 min = eclipse.getTransformer().minVisisble();
+		Vector2 max = eclipse.getTransformer().maxVisible();
 		
 		min = new Vector2(
 				Math.floor(min.x / width) * width,
 				Math.floor(min.y / height) * height
 				);
-		
-		// [lenny_face.png]
-		min.subtract(1000, 1000);
-		max.add(1000, 1000);
 		
 		for (double x = min.x; x < max.x; x += width) {
 			for (double y = min.y; y < max.y; y += height) {
@@ -47,7 +47,6 @@ public class SpaceBackground implements Renderable {
 	@Override
 	public void init() throws SlickException {
 		if (texture == null) texture = ResourceUtils.loadImage("gui/space2");
-		this.width = 1000;
 		this.height = width / texture.getWidth() * texture.getHeight();
 	}
 	

@@ -9,7 +9,7 @@ import org.newdawn.slick.SlickException;
  */
 public interface Renderable {
 
-	void render(GameContainer container, Graphics g, int pixelsPerMeter) throws SlickException;
+	void render(GameContainer container, Graphics g) throws SlickException;
 	
 	void init() throws SlickException;
 	

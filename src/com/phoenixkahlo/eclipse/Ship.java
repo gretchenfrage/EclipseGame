@@ -10,6 +10,12 @@ import org.dyn4j.geometry.Vector2;
  * A ship that is a TextureBody and a Platform
  */
 public abstract class Ship extends TextureBody implements Platform {
+	
+	/**
+	 * A list of convex polygons composing the floor area of this ship, which which bodies can rest on.
+	 * The origin of these polygons is the world position of this ship.
+	 */
+	protected abstract List<Convex> getFloor();
 
 	@Override
 	public boolean standingOn(Vector2 position) {
@@ -19,12 +25,6 @@ public abstract class Ship extends TextureBody implements Platform {
 		}
 		return false;
 	}
-	
-	/**
-	 * A list of convex polygons composing the floor area of this which which bodies can rest on.
-	 * The origin of these polygons is the world position of this ship.
-	 */
-	protected abstract List<Convex> getFloor();
 	
 	@Override
 	public Body toBody() {

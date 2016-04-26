@@ -14,6 +14,9 @@ import com.phoenixkahlo.eclipse.Ship;
 
 import org.dyn4j.geometry.Rectangle;
 
+/**
+ * The prismarine square ship.
+ */
 public class BasicShip1 extends Ship {
 
 	private static Image texture;

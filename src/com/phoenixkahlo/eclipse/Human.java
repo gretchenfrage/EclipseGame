@@ -6,6 +6,9 @@ import org.dyn4j.geometry.Vector2;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/**
+ * A human that can walk, sprint, and thrust around.
+ */
 public class Human extends StandingBody {
 
 	private static final double RADIUS = 0.5;
@@ -41,7 +44,7 @@ public class Human extends StandingBody {
 	@Override
 	public void postUpdate(int delta) {
 		super.postUpdate(delta);
-		if (!onPlatform()) applyForce(
+		if (!onPlatform()) applyForce( // Thrust if in space.
 				direction.copy().multiply((sprinting ? SPRINT_THRUST_FORCE : THRUST_FORCE) * delta)
 				);
 	}

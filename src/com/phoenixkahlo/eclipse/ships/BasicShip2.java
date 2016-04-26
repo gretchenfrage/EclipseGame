@@ -13,6 +13,9 @@ import org.newdawn.slick.SlickException;
 import com.phoenixkahlo.eclipse.ResourceUtils;
 import com.phoenixkahlo.eclipse.Ship;
 
+/**
+ * Small generic engine-testing ship.
+ */
 public class BasicShip2 extends Ship {
 	
 	private static Image texture;

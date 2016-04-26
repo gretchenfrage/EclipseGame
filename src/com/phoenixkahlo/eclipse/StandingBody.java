@@ -3,7 +3,7 @@ package com.phoenixkahlo.eclipse;
 import org.dyn4j.geometry.Vector2;
 
 /**
- * A TextureBody that will stand on Platforms
+ * A TextureBody that will stand on Platforms.
  */
 public abstract class StandingBody extends TextureBody implements Updatable {
 	
@@ -36,10 +36,17 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 	}
 	
 	/**
-	 * Only expected to work correctly if onPlatform() == true in this update cycle
+	 * Only expected to work correctly if onPlatform() == true in this update cycle.
 	 */
 	protected Platform getPlatform() {
 		return preUpdatePlatform;
+	}
+	
+	/**
+	 * Has same limit as getPlatform().
+	 */
+	protected double getPlatformAngle() {
+		return getPlatform().toBody().getTransform().getRotation();
 	}
 	
 	@Override

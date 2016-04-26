@@ -8,7 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
 /**
- * Body that is rendered as an image
+ * A body that is rendered as an image at a certain angle and size.
  */
 public abstract class TextureBody extends Body implements Renderable {
 
@@ -30,22 +30,20 @@ public abstract class TextureBody extends Body implements Renderable {
 	}
 	
 	@Override
-	public void render(GameContainer container, Graphics g, int pixelsPerMeter) {
+	public void render(GameContainer container, Graphics g) {
 		assert texture != null : "Texture not injected";
-		Vector2 center = getWorldCenter().multiply(pixelsPerMeter);
-		Vector2 corner1 = center.copy().subtract(
-				new Vector2(textureWidth / 2, textureHeight / 2).multiply(pixelsPerMeter)
-				);
-		Vector2 corner2 = center.copy().add(
-				new Vector2(textureWidth / 2, textureHeight / 2).multiply(pixelsPerMeter)
-				);
+		
+		Vector2 center = getWorldCenter();
+		Vector2 c1 = center.copy().subtract(new Vector2(textureWidth / 2, textureHeight / 2));
+		Vector2 c2 = center.copy().add(new Vector2(textureWidth / 2, textureHeight / 2));
+		
 		g.rotate((float) center.x, (float) center.y, (float) Math.toDegrees(getAngle() + baseAngle));
 		g.drawImage(
 				texture,
-				(float) corner1.x, (float) corner1.y, (float) corner2.x, (float) corner2.y,
+				(float) c1.x, (float) c1.y, (float) c2.x, (float) c2.y,
 				0, 0, texture.getWidth(), texture.getHeight()
 				);
-		g.rotate((float) center.x, (float) center.y, (float) Math.toDegrees(-(getAngle() + baseAngle)));
+		g.rotate((float) center.x, (float) center.y, (float) -Math.toDegrees(getAngle() + baseAngle));
 	}	
 	
 	public double getAngle() {

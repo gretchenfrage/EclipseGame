@@ -6,6 +6,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+/**
+ * Static utils class for loading resources.
+ */
 public class ResourceUtils {
 
 	private ResourceUtils() {}

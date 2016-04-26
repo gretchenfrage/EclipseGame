@@ -13,6 +13,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+/**
+ * The Eclipse world that holds all the dyn4j-Bodies, Platforms, Renderables, Updatables, Useables.
+ * @author <a href="mailto:kahlo.phoenix@gmail.com">Phoenix Kahlo</a>
+ */
 public class EclipseWorld extends World implements Renderable, Updatable {
 	
 	private List<Platform> platforms = new ArrayList<Platform>();
@@ -83,10 +87,10 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	}
 	
 	@Override
-	public void render(GameContainer container, Graphics g, int pixelsPerMeter) throws SlickException {
+	public void render(GameContainer container, Graphics g) throws SlickException {
 		for (RenderLayer layer : RenderLayer.values()) {
 			for (Renderable renderable : renderLayers.get(layer)) {
-				renderable.render(container, g, pixelsPerMeter);
+				renderable.render(container, g);
 			}
 		}
 	}
