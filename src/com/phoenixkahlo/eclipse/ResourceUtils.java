@@ -13,8 +13,10 @@ public class ResourceUtils {
 
 	private ResourceUtils() {}
 	
+	private static ClassLoader loader = ResourceUtils.class.getClassLoader();
+	
 	public static InputStream resourceStream(String name) {
-		return ResourceUtils.class.getClassLoader().getResourceAsStream(name);
+		return loader.getResourceAsStream(name);
 	}
 	
 	public static Image loadAbsImage(String name) throws SlickException {

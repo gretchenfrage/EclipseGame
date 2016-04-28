@@ -25,7 +25,7 @@ public class Human extends StandingBody {
 	public Human(EclipseWorld world) {
 		super(world);
 		addFixture(new Circle(RADIUS));
-		setMass(MassType.NORMAL);
+		setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		setBaseAngle((float) Math.toRadians(45));
 	}
 	

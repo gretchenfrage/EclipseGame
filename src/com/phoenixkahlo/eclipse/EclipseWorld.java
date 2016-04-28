@@ -1,7 +1,7 @@
 package com.phoenixkahlo.eclipse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -15,7 +15,6 @@ import org.newdawn.slick.SlickException;
 
 /**
  * The Eclipse world that holds all the dyn4j-Bodies, Platforms, Renderables, Updatables, Useables.
- * @author <a href="mailto:kahlo.phoenix@gmail.com">Phoenix Kahlo</a>
  */
 public class EclipseWorld extends World implements Renderable, Updatable {
 	
@@ -23,7 +22,7 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	private List<Updatable> updatables = new ArrayList<Updatable>();
 	private List<Useable> useables = new ArrayList<Useable>();
 	
-	public Map<RenderLayer, List<Renderable>> renderLayers;
+	private Map<RenderLayer, List<Renderable>> renderLayers;
 	private RenderLayer defaultLayer = RenderLayer.Humans;
 	
 	private Stack<Renderable> toInit = new Stack<Renderable>();
@@ -31,7 +30,7 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	public EclipseWorld() {
 		setGravity(ZERO_GRAVITY);
 		
-		renderLayers = new HashMap<RenderLayer, List<Renderable>>();
+		renderLayers = new EnumMap<RenderLayer, List<Renderable>>(RenderLayer.class);
 		for (RenderLayer layer : RenderLayer.values()) {
 			renderLayers.put(layer, new ArrayList<Renderable>());
 		}
@@ -58,7 +57,7 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	
 	public void completeUpdate(int delta) {
 		preUpdate(delta);
-		update(delta / 1000d);
+		update(delta / 1000d, Integer.MAX_VALUE);
 		postUpdate(delta);
 	}
 	
@@ -89,23 +88,32 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		for (RenderLayer layer : RenderLayer.values()) {
-			for (Renderable renderable : renderLayers.get(layer)) {
+			/*for (Renderable renderable : renderLayers.get(layer)) {
 				renderable.render(container, g);
+			}*/
+			for (int i = renderLayers.get(layer).size() - 1; i >= 0; i--) {
+				renderLayers.get(layer).get(i).render(container, g);
 			}
 		}
 	}
 	
 	@Override
 	public void preUpdate(int delta) {
-		for (Updatable updatable : updatables) {
+		/*for (Updatable updatable : updatables) {
 			updatable.preUpdate(delta);
+		}*/
+		for (int i = updatables.size() - 1; i >= 0; i--) {
+			updatables.get(i).preUpdate(delta);
 		}
 	}
 	
 	@Override
 	public void postUpdate(int delta) {
-		for (Updatable updatable : updatables) {
+		/*for (Updatable updatable : updatables) {
 			updatable.postUpdate(delta);
+		}*/
+		for (int i = updatables.size() - 1; i >= 0; i--) {
+			updatables.get(i).postUpdate(delta);
 		}
 	}
 	

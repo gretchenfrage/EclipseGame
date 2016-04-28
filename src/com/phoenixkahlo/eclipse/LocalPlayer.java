@@ -1,14 +1,6 @@
 package com.phoenixkahlo.eclipse;
 
-import static org.newdawn.slick.Input.KEY_A;
-import static org.newdawn.slick.Input.KEY_D;
-import static org.newdawn.slick.Input.KEY_E;
-import static org.newdawn.slick.Input.KEY_F;
-import static org.newdawn.slick.Input.KEY_LSHIFT;
-import static org.newdawn.slick.Input.KEY_Q;
-import static org.newdawn.slick.Input.KEY_R;
-import static org.newdawn.slick.Input.KEY_S;
-import static org.newdawn.slick.Input.KEY_W;
+import static org.newdawn.slick.Input.*;
 
 import org.dyn4j.geometry.Vector2;
 import org.newdawn.slick.Input;
@@ -20,6 +12,9 @@ public class LocalPlayer extends Human implements PerspectiveGetter {
 	
 	private static final float PERSPECTIVE_ROTATION_SPEED = 0.0025f;
 	private static final float PERSPECTIVE_SCALE_SPEED = 1.001f;
+	
+	private static final float PERSPECTIVE_SCALE_MIN = 1f;
+	private static final float PERSPECTIVE_SCALE_MAX = 22;
 	
 	private Eclipse eclipse;
 	
@@ -55,15 +50,20 @@ public class LocalPlayer extends Human implements PerspectiveGetter {
 		setSprinting(sprinting);
 		setDirection(direction);
 		
-		if (input.isKeyDown(KEY_Q)) perspectiveAngle += PERSPECTIVE_ROTATION_SPEED * delta;
-		if (input.isKeyDown(KEY_E)) perspectiveAngle -= PERSPECTIVE_ROTATION_SPEED * delta;
+		if (onPlatform() && input.isKeyDown(KEY_T))
+			//perspectiveAngle = (float) -getPlatformAngle();
+			eclipse.getWorld().addUpdatable(new PerspectiveAligner());
+		else {
+			if (input.isKeyDown(KEY_Q)) perspectiveAngle += PERSPECTIVE_ROTATION_SPEED * delta;
+			if (input.isKeyDown(KEY_E)) perspectiveAngle -= PERSPECTIVE_ROTATION_SPEED * delta;
+		}
 		
 		if (input.isKeyDown(KEY_R)) perspectiveScale *= Math.pow(PERSPECTIVE_SCALE_SPEED, delta);
 		if (input.isKeyDown(KEY_F)) perspectiveScale /= Math.pow(PERSPECTIVE_SCALE_SPEED, delta);
-		if (perspectiveScale < 5) perspectiveScale = 5;
-		if (perspectiveScale > 50) perspectiveScale = 50;
+		if (perspectiveScale < PERSPECTIVE_SCALE_MIN) perspectiveScale = PERSPECTIVE_SCALE_MIN;
+		if (perspectiveScale > PERSPECTIVE_SCALE_MAX) perspectiveScale = PERSPECTIVE_SCALE_MAX;
 		
-		//pointTowardsMouse(container.getInput(), eclipse.getTranslation(), eclipse.getPixelsPerMeter());
+		pointTowardsMouse(input, eclipse.getTransformer());
 	}
 	
 	@Override
@@ -86,6 +86,42 @@ public class LocalPlayer extends Human implements PerspectiveGetter {
 	@Override
 	public float getPerspectiveAngle() {
 		return perspectiveAngle;
+	}
+	
+	/**
+	 * Transient Updatable to smoothly align LocalPlayer with it's Platform.
+	 */
+	private class PerspectiveAligner implements Updatable {
+
+		static final float ROTATION_SPEED = 0.01f;
+		
+		@Override
+		public void preUpdate(int delta) {
+			if (!onPlatform()) {
+				eclipse.getWorld().remove(this);
+				return;
+			}
+			
+			float target = (float) -getPlatformAngle();
+			perspectiveAngle %= Math.PI * 2;
+			
+			if (perspectiveAngle < target) {
+				perspectiveAngle += ROTATION_SPEED * delta;
+				if (perspectiveAngle > target) perspectiveAngle = target;
+			} else {
+				perspectiveAngle -= ROTATION_SPEED * delta;
+				if (perspectiveAngle < target) perspectiveAngle = target;
+			}
+			
+			if (perspectiveAngle == target) {
+				eclipse.getWorld().remove(this);
+				return;
+			}
+		}
+		
+		@Override
+		public void postUpdate(int delta) {}
+		
 	}
 
 }

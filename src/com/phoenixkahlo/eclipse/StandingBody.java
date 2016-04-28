@@ -60,6 +60,9 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 			vector.subtract(getLinearVelocity()); // The change of velocity to achieve
 			vector.multiply(getMass().getMass()); // The force to apply
 			applyImpulse(vector);
+			
+			
+			
 			vector.multiply(-1); // The inverse force to apply to the platform
 			getPlatform().toBody().applyImpulse(vector, getWorldCenter());
 		}

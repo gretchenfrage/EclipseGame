@@ -25,6 +25,7 @@ public class PerspectiveTransformer {
 	}
 	
 	public void transform(Graphics g) {
+		g.resetTransform();
 		g.translate(container.getWidth() / 2, container.getHeight() / 2);
 		g.scale(scale, scale);
 		g.translate((float) -position.x, (float) -position.y);
@@ -53,6 +54,46 @@ public class PerspectiveTransformer {
 
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+	
+	public Vector2 screenToWorld(Vector2 pos) {
+		pos.subtract(container.getWidth() / 2, container.getHeight() / 2);
+		pos.multiply(1 / scale);
+		pos.rotate(-angle);
+		pos.add(position);
+		return pos;
+	}
+	
+	public Vector2 worldToScreen(Vector2 pos) {
+		pos.subtract(position);
+		pos.rotate(angle);
+		pos.multiply(scale);
+		pos.add(container.getWidth() / 2, container.getHeight() / 2);
+		return pos;
+	}
+	
+	public float minX() {
+		return (float) MathUtils.min(transformedCornersX());
+	}
+	
+	public float maxX() {
+		return (float) MathUtils.max(transformedCornersX());
+	}
+	
+	public float minY() {
+		return (float) MathUtils.min(transformedCornersY());
+	}
+	
+	public float maxY() {
+		return (float) MathUtils.max(transformedCornersY());
+	}
+	
+	public Vector2 minVisisble() {
+		return new Vector2(minX(), minY());
+	}
+	
+	public Vector2 maxVisible() {
+		return new Vector2(maxX(), maxY());
 	}
 	
 	private Vector2[] transformedCorners() {
@@ -86,30 +127,6 @@ public class PerspectiveTransformer {
 			out[i] = vectors[i].y;
 		}
 		return out;
-	}
-	
-	public float minX() {
-		return (float) MathUtils.min(transformedCornersX());
-	}
-	
-	public float maxX() {
-		return (float) MathUtils.max(transformedCornersX());
-	}
-	
-	public float minY() {
-		return (float) MathUtils.min(transformedCornersY());
-	}
-	
-	public float maxY() {
-		return (float) MathUtils.max(transformedCornersY());
-	}
-	
-	public Vector2 minVisisble() {
-		return new Vector2(minX(), minY());
-	}
-	
-	public Vector2 maxVisible() {
-		return new Vector2(maxX(), maxY());
 	}
 	
 }

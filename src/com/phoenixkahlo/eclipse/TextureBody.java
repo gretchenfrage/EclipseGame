@@ -63,21 +63,8 @@ public abstract class TextureBody extends Body implements Renderable {
 		setAngle(Math.atan2(point.y, point.x));
 	}
 	
-	/**
-	 * Points towards the pixel on the screen
-	 * @param point the coordinates of the pixel to point towards
-	 * @param pixelOrigin the pixel coordinates of the world origin
-	 */
-	public void pointTowardsPixel(Vector2 point, Vector2 pixelOrigin, int pixelsPerMeter) {
-		pointTowards(point.subtract(pixelOrigin).multiply(1d / pixelsPerMeter));
-	}
-	
-	public void pointTowardsMouse(Input input, Vector2 pixelOrigin, int pixelsPerMeter) {
-		pointTowardsPixel(new Vector2(
-				input.getMouseX(), input.getMouseY()),
-				pixelOrigin,
-				pixelsPerMeter
-				);
+	public void pointTowardsMouse(Input input, PerspectiveTransformer transformer) {
+		pointTowards(transformer.screenToWorld(new Vector2(input.getMouseX(), input.getMouseY())));
 	}
 
 }

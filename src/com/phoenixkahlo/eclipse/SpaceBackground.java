@@ -13,6 +13,8 @@ public class SpaceBackground implements Renderable {
 
 	private static Image texture;
 	
+	private static Image mars;
+	
 	private double width = 500;
 	private double height;
 	
@@ -42,12 +44,16 @@ public class SpaceBackground implements Renderable {
 						);
 			}
 		}
+		
+		g.drawImage(mars, 15, 15, 40, 40, 0, 0, mars.getWidth(), mars.getHeight());
 	}
 
 	@Override
 	public void init() throws SlickException {
 		if (texture == null) texture = ResourceUtils.loadImage("gui/space2");
 		this.height = width / texture.getWidth() * texture.getHeight();
+		
+		if (mars == null) mars = ResourceUtils.loadImage("gui/mars");
 	}
 	
 }

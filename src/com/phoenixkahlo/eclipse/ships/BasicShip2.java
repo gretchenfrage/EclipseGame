@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Mass;
+import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 import org.newdawn.slick.Image;
