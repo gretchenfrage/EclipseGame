@@ -42,6 +42,8 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 		if (object instanceof Renderable) addRenderable((Renderable) object, layer);
 		if (object instanceof Updatable) addUpdatable((Updatable) object);
 		if (object instanceof Useable) addUseable((Useable) object);
+		
+		if (object instanceof WorldInitializer) ((WorldInitializer) object).worldInit(this);
 	}
 	
 	public void add(Object object) {
@@ -88,9 +90,6 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		for (RenderLayer layer : RenderLayer.values()) {
-			/*for (Renderable renderable : renderLayers.get(layer)) {
-				renderable.render(container, g);
-			}*/
 			for (int i = renderLayers.get(layer).size() - 1; i >= 0; i--) {
 				renderLayers.get(layer).get(i).render(container, g);
 			}
@@ -99,9 +98,6 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	
 	@Override
 	public void preUpdate(int delta) {
-		/*for (Updatable updatable : updatables) {
-			updatable.preUpdate(delta);
-		}*/
 		for (int i = updatables.size() - 1; i >= 0; i--) {
 			updatables.get(i).preUpdate(delta);
 		}
@@ -109,9 +105,6 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	
 	@Override
 	public void postUpdate(int delta) {
-		/*for (Updatable updatable : updatables) {
-			updatable.postUpdate(delta);
-		}*/
 		for (int i = updatables.size() - 1; i >= 0; i--) {
 			updatables.get(i).postUpdate(delta);
 		}
@@ -140,9 +133,9 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 	}
 	
 	public void activateUseable(LocalPlayer player) {
-		for (Useable useable : useables) {
-			if (useable.atLocation(player.getWorldCenter())) {
-				useable.use(player);
+		for (int i = useables.size() - 1; i >= 0; i--) {
+			if (useables.get(i).atLocation(player.getWorldCenter())) {
+				useables.get(i).use(player);
 				return;
 			}
 		}

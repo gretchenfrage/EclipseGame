@@ -16,7 +16,9 @@ import com.phoenixkahlo.eclipse.ships.BasicShip2;
 public class Eclipse extends BasicGame {
 	
 	public static void main(String[] args) throws SlickException {
-		AppGameContainer container = new AppGameContainer(new Eclipse(), 1280, 800, true);
+		AppGameContainer container = new AppGameContainer(new Eclipse());
+		//container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
+		container.setDisplayMode(500, 500, false);
 		container.setTargetFrameRate(60);
 		container.setVSync(true);
 		container.setShowFPS(false);
@@ -39,7 +41,7 @@ public class Eclipse extends BasicGame {
 		
 		// Arbitrary initialization section
 		
-		Ship ship = new BasicShip2();
+		Ship ship = new BasicShip2(this);
 		world.add(ship, RenderLayer.Ships);
 		ship.applyForce(new Vector2(1400_0400, 1400_0400));
 		ship.applyTorque(500000);
@@ -63,10 +65,11 @@ public class Eclipse extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		if (container.getInput().isKeyPressed(Input.KEY_ESCAPE)) container.exit();
-				
+		if (container.getInput().isKeyPressed(Input.KEY_GRAVE)) container.exit();
+		
 		world.completeUpdate(delta);
 	}
-	
+
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		this.container = container;

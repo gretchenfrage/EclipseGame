@@ -3,9 +3,9 @@ package com.phoenixkahlo.eclipse;
 import org.dyn4j.geometry.Vector2;
 
 /**
- * Something that can have a visual viewing perspective.
+ * Is owned by the player to handle input and perspective.
  */
-public interface PerspectiveGetter {
+public interface PlayerInputHandler extends Updatable {
 
 	Vector2 getPerspectivePosition();
 	
