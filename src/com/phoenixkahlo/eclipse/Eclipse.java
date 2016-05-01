@@ -17,11 +17,12 @@ public class Eclipse extends BasicGame {
 	
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer container = new AppGameContainer(new Eclipse());
-		//container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
-		container.setDisplayMode(500, 500, false);
+		container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
+		//container.setDisplayMode(500, 500, false);
 		container.setTargetFrameRate(60);
 		container.setVSync(true);
 		container.setShowFPS(false);
+		container.setMinimumLogicUpdateInterval(1000 / 30);
 		container.start();
 	}
 	

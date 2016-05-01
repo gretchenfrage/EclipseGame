@@ -83,4 +83,16 @@ public abstract class Ship extends TextureBody implements Platform, WorldInitial
 		return false;
 	}
 	
+	protected double getLinearThrust() {return 200000;}
+	
+	protected double getTorqueThrust() {return 7000;}
+	
+	public void thrustLinear(Vector2 direction) {
+		applyForce(direction.multiply(getLinearThrust()));
+	}
+	
+	public void thrustTorque(double direction) {
+		applyTorque(direction * getTorqueThrust());
+	}
+	
 }

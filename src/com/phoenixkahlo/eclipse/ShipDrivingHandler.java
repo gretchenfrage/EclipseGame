@@ -70,11 +70,20 @@ public class ShipDrivingHandler implements PlayerInputHandler {
 		if (input.isKeyDown(STRAFE_UP)) direction.y -= 1;
 		if (input.isKeyDown(STRAFE_DOWN)) direction.y += 1;
 		direction.rotate(-eclipse.getTransformer().getAngle());
+		
+		// Getting torqueing direction
+		float spin = 0;
+		if (input.isKeyDown(TURN_RIGHT)) spin++;
+		if (input.isKeyDown(TURN_LEFT)) spin--;
+		
+		// Thrust
+		ship.thrustLinear(direction);
+		ship.thrustTorque(spin);
 	}
 
 	@Override
 	public void postUpdate(int delta) {
-		player.translate(player.getWorldCenter().subtract(ship.getWorldPoint(ship.getHelmPosition())));
+		player.translate(ship.getWorldPoint(ship.getHelmPosition()).subtract(player.getWorldCenter()));
 		player.setAngle(ship.getHelmAngle() + ship.getAngle());
 	}
 
