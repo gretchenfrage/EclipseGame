@@ -1,7 +1,6 @@
 package com.phoenixkahlo.eclipse;
 
 import org.dyn4j.geometry.Vector2;
-import org.newdawn.slick.Input;
 
 /**
  * An Eclipse entity which may be implemented through a Body.
@@ -20,6 +19,8 @@ public interface Entity {
 	
 	public void pointTowards(Vector2 point);
 	
-	void pointTowardsMouse(Input input, PerspectiveTransformer transformer);
+	void pointTowardsMouse(InputContext input, PerspectiveTransformer transformer);
+	
+	EclipseWorld getWorld();
 	
 }

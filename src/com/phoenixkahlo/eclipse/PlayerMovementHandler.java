@@ -5,9 +5,8 @@ package com.phoenixkahlo.eclipse;
  */
 public interface PlayerMovementHandler {
 
-	/**
-	 * Expected to be called in PreUpdate stage.
-	 */
-	void update(InputContext input);
+	void preUpdate(int delta, InputContext input);
+	
+	void postUpdate(int delta, InputContext input);
 	
 }

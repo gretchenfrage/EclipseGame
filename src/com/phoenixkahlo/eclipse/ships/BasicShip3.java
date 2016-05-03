@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import com.phoenixkahlo.eclipse.Eclipse;
+import com.phoenixkahlo.eclipse.EclipseWorld;
 import com.phoenixkahlo.eclipse.ResourceUtils;
 import com.phoenixkahlo.eclipse.Ship;
 
@@ -19,8 +20,8 @@ public class BasicShip3 extends Ship {
 	private static Image texture;
 	private List<Convex> floor = new ArrayList<Convex>();
 	
-	public BasicShip3(Eclipse eclipse) {
-		super(eclipse);
+	public BasicShip3(EclipseWorld world) {
+		super(world);
 		
 		Convex c1 = new Rectangle(1, 40);
 		c1.translate(-4.5, 0);

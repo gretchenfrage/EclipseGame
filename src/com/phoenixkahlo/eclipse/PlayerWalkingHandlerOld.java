@@ -81,7 +81,7 @@ public class PlayerWalkingHandlerOld implements PlayerInputHandler {
 			eclipse.getWorld().activateUseable(player);
 		}
 		
-		player.pointTowardsMouse(input, eclipse.getTransformer());
+		//player.pointTowardsMouse(input, eclipse.getTransformer());
 	}
 
 	@Override
@@ -106,9 +106,9 @@ public class PlayerWalkingHandlerOld implements PlayerInputHandler {
 	}
 
 	/**
-	 * Transient Updatable to smoothly align LocalPlayer with it's Platform.
+	 * Transient Updatable to smoothly align LocalPlayerOld with it's Platform.
 	 */
-	private class PerspectiveAligner implements Updatable {
+	public class PerspectiveAligner implements Updatable {
 
 		static final float ROTATION_SPEED = 0.01f;
 		

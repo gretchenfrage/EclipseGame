@@ -18,17 +18,17 @@ public class SpaceBackground implements Renderable {
 	private double width = 500;
 	private double height;
 	
-	private Eclipse eclipse;
+	private Player player;
 	
-	public SpaceBackground(Eclipse eclipse) {
-		this.eclipse = eclipse;
+	public SpaceBackground(Player player) {
+		this.player = player;
 	}
 	
 	
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		Vector2 min = eclipse.getTransformer().minVisisble();
-		Vector2 max = eclipse.getTransformer().maxVisible();
+		Vector2 min = player.getTransformer().minVisisble();
+		Vector2 max = player.getTransformer().maxVisible();
 		
 		min = new Vector2(
 				Math.floor(min.x / width) * width,

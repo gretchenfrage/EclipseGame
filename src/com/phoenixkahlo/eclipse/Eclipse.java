@@ -29,21 +29,21 @@ public class Eclipse extends BasicGame {
 	
 	private GameContainer container;
 	private EclipseWorld world;
-	private LocalPlayer player;
+	private LocalPlayerOld player;
 	private PerspectiveTransformer transformer;
 			
 	public Eclipse() {
 		super("Eclipse");
 		
 		world = new EclipseWorld();
-		world.add(new SpaceBackground(this), RenderLayer.Background);
 
-		player = new LocalPlayer(this);
+		player = new LocalPlayerOld(this);
 		world.add(player, RenderLayer.Humans);
 		
+		world.add(new SpaceBackground(player), RenderLayer.Background);
 		// Arbitrary initialization section
 		
-		Ship ship = new BasicShip2(this);
+		Ship ship = new BasicShip2(world);
 		world.add(ship, RenderLayer.Ships);
 		ship.applyForce(new Vector2(1400_0400, 1400_0400));
 		ship.applyTorque(500000);

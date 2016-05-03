@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import com.phoenixkahlo.eclipse.Eclipse;
+import com.phoenixkahlo.eclipse.EclipseWorld;
 import com.phoenixkahlo.eclipse.ResourceUtils;
 import com.phoenixkahlo.eclipse.Ship;
 
@@ -23,8 +24,8 @@ public class BasicShip2 extends Ship {
 	private List<Convex> floor;
 	private List<Convex> helm;
 
-	public BasicShip2(Eclipse eclipse) {
-		super(eclipse);
+	public BasicShip2(EclipseWorld world) {
+		super(world);
 		
 		floor = new ArrayList<Convex>();
 		floor.add(new Rectangle(10, 10));

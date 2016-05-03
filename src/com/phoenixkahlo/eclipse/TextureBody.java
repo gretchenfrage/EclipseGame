@@ -5,7 +5,6 @@ import org.dyn4j.geometry.Vector2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 
 /**
  * A body that is rendered as an image at a certain angle and size.
@@ -16,6 +15,11 @@ public abstract class TextureBody extends Body implements Entity, Renderable {
 	private Image texture;
 	private float textureWidth;
 	private float textureHeight;
+	private EclipseWorld world;
+	
+	public TextureBody(EclipseWorld world) {
+		this.world = world;
+	}
 	
 	/**
 	 * Expected to be called in init() call of non-abstract subclass.
@@ -74,8 +78,8 @@ public abstract class TextureBody extends Body implements Entity, Renderable {
 	}
 	
 	@Override
-	public void pointTowardsMouse(Input input, PerspectiveTransformer transformer) {
-		pointTowards(transformer.screenToWorld(new Vector2(input.getMouseX(), input.getMouseY())));
+	public void pointTowardsMouse(InputContext input, PerspectiveTransformer transformer) {
+		pointTowards(transformer.screenToWorld(input.getMousePosition()));
 	}
 
 	@Override
@@ -86,6 +90,11 @@ public abstract class TextureBody extends Body implements Entity, Renderable {
 	@Override
 	public void setLocation(Vector2 location) {
 		translate(location.subtract(getLocation()));
+	}
+
+	@Override
+	public EclipseWorld getWorld() {
+		return world;
 	}
 
 }

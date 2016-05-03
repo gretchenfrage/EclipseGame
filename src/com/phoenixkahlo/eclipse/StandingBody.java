@@ -7,17 +7,16 @@ import org.dyn4j.geometry.Vector2;
  */
 public abstract class StandingBody extends TextureBody implements Updatable {
 	
-	private EclipseWorld world;
 	private Platform preUpdatePlatform;
 	private Platform postUpdatePlatform;
 	
 	public StandingBody(EclipseWorld world) {
-		this.world = world;
+		super(world);
 	}
 	
 	@Override
 	public void preUpdate(int delta) {
-		preUpdatePlatform = world.standingOn(getWorldCenter());
+		preUpdatePlatform = getWorld().standingOn(getWorldCenter());
 	}
 	
 	protected double getVelocityChangeWeight() {
@@ -54,7 +53,7 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 	
 	@Override
 	public void postUpdate(int delta) {
-		postUpdatePlatform = world.standingOn(getWorldCenter());
+		postUpdatePlatform = getWorld().standingOn(getWorldCenter());
 		if (onPlatform()) {
 			Vector2 vector = getTargetLinearVelocity(); // The ultimate target velocity
 			vector.multiply(getVelocityChangeWeight() * delta);
@@ -63,8 +62,6 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 			vector.subtract(getLinearVelocity()); // The change of velocity to achieve
 			vector.multiply(getMass().getMass()); // The force to apply
 			applyImpulse(vector);
-			
-			
 			
 			vector.multiply(-1); // The inverse force to apply to the platform
 			getPlatform().toBody().applyImpulse(vector, getWorldCenter());

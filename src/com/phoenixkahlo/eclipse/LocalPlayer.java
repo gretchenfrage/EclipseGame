@@ -2,53 +2,68 @@ package com.phoenixkahlo.eclipse;
 
 import org.dyn4j.geometry.Vector2;
 
-/**
- * The player controlled by this client.
- */
-@Deprecated
 public class LocalPlayer extends WalkingBody implements Player {
+
+	private PlayerMovementHandler defaultMovementHandler;
+	private PlayerPerspectiveHandler defaultPerspectiveHandler;
+	private PlayerMovementHandler movementHandler;
+	private PlayerPerspectiveHandler perspectiveHandler;
+	private PerspectiveTransformer transformer;
+	private InputContext input;
 	
-	private PlayerInputHandler defaultInputHandler;
-	private PlayerInputHandler inputHandler;
-	
-	public LocalPlayer(Eclipse eclipse) {
-		super(eclipse.getWorld());
-		
-		defaultInputHandler = new PlayerWalkingHandlerOld(this, eclipse);
-		inputHandler = defaultInputHandler;
+	public LocalPlayer(EclipseWorld world, InputContext input) {
+		super(world);
+		this.input = input;
+	}
+
+	@Override
+	public void setMovementHandler(PlayerMovementHandler handler) {
+		movementHandler = handler;
+	}
+
+	@Override
+	public void resetMovementHandler() {
+		setMovementHandler(defaultMovementHandler);
+	}
+
+	@Override
+	public void setPerspectiveHandler(PlayerPerspectiveHandler handler) {
+		perspectiveHandler = handler;
+	}
+
+	@Override
+	public void resetPerspectiveHandler() {
+		setPerspectiveHandler(defaultPerspectiveHandler);
+	}
+
+	@Override
+	public void activateUseable(Vector2 location) {
+		//TODO: make better
+		getWorld().activateUseable(this);
+	}
+
+	@Override
+	public PlayerPerspectiveHandler getPerspectiveHandler() {
+		return perspectiveHandler;
+	}
+
+	@Override
+	public PerspectiveTransformer getTransformer() {
+		return transformer;
 	}
 	
 	@Override
 	public void preUpdate(int delta) {
 		super.preUpdate(delta);
-		
-		inputHandler.preUpdate(delta);
+		movementHandler.preUpdate(delta, input);
+		perspectiveHandler.preUpdate(delta, input);
 	}
-	
-	public void setInputHandler(PlayerInputHandler inputHandler) {
-		this.inputHandler = inputHandler;
-	}
-	
-	public void resetInputHandler() {
-		this.inputHandler = defaultInputHandler;
-	}
-	
+
 	@Override
 	public void postUpdate(int delta) {
 		super.postUpdate(delta);
-		inputHandler.postUpdate(delta);
-	}
-
-	public Vector2 getPerspectivePosition() {
-		return inputHandler.getPerspectivePosition();
-	}
-
-	public float getPerspectiveScale() {
-		return inputHandler.getPerspectiveScale();
-	}
-
-	public float getPerspectiveAngle() {
-		return inputHandler.getPerspectiveAngle();
+		movementHandler.postUpdate(delta, input);
+		perspectiveHandler.postUpdate(delta, input);
 	}
 
 }

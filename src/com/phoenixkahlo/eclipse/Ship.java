@@ -12,15 +12,15 @@ import org.dyn4j.geometry.Vector2;
  */
 public abstract class Ship extends TextureBody implements Platform, SelfInitializer {
 	
-	private Eclipse eclipse;
+	//private Eclipse eclipse;
 	
 	/**
 	 * Will hold a reference if someone is driving the ship, otherwise will be null.
 	 */
 	private Player driver = null;
 	
-	public Ship(Eclipse eclipse) {
-		this.eclipse = eclipse;
+	public Ship(EclipseWorld world) {
+		super(world);
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public abstract class Ship extends TextureBody implements Platform, SelfInitiali
 			@Override
 			public void use(Player player) {
 				driver = player;
-				player.setInputHandler(new ShipDrivingHandler(player, eclipse, Ship.this));
+				//player.setInputHandler(new ShipDrivingHandler(player, eclipse, Ship.this));
 			}
 			
 		});
@@ -45,7 +45,8 @@ public abstract class Ship extends TextureBody implements Platform, SelfInitiali
 	 * The canonical way of disconnecting a player from the ship.
 	 */
 	public void dismount() {
-		driver.resetInputHandler();
+		driver.resetMovementHandler();
+		driver.resetPerspectiveHandler();
 		driver = null;
 	}
 

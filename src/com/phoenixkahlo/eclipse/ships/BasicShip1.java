@@ -10,7 +10,7 @@ import org.dyn4j.geometry.Vector2;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import com.phoenixkahlo.eclipse.Eclipse;
+import com.phoenixkahlo.eclipse.EclipseWorld;
 import com.phoenixkahlo.eclipse.ResourceUtils;
 import com.phoenixkahlo.eclipse.Ship;
 
@@ -22,8 +22,8 @@ public class BasicShip1 extends Ship {
 	private static Image texture;
 	private List<Convex> floor = new ArrayList<Convex>();
 	
-	public BasicShip1(Eclipse eclipse) {
-		super(eclipse);
+	public BasicShip1(EclipseWorld world) {
+		super(world);
 		
 		setMass(new Mass(new Vector2(), 5000, 5000));
 		floor.add(new Rectangle(10, 10));
