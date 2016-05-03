@@ -56,4 +56,9 @@ public class LocalPlayer extends WalkingBody implements Player {
 		return getWorldCenter();
 	}
 
+	@Override
+	public void setLocation(Vector2 location) {
+		translate(getLocation().subtract(location));
+	}
+
 }

@@ -24,6 +24,9 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 		return 1;
 	}
 	
+	/**
+	 * Designed to be overriden if the Body wants to be moving relative to the ship. 
+	 */
 	protected Vector2 getTargetLinearVelocity() {
 		return getPlatform().toBody().getLinearVelocity(getWorldCenter());
 	}
@@ -31,21 +34,21 @@ public abstract class StandingBody extends TextureBody implements Updatable {
 	/**
 	 * Only expected to work correctly when called after Standing.pre/postUpdate() in a given update cycle.
 	 */
-	protected boolean onPlatform() {
+	public boolean onPlatform() {
 		return preUpdatePlatform == postUpdatePlatform && preUpdatePlatform != null;
 	}
 	
 	/**
 	 * Only expected to work correctly if onPlatform() == true in this update cycle.
 	 */
-	protected Platform getPlatform() {
+	public Platform getPlatform() {
 		return preUpdatePlatform;
 	}
 	
 	/**
 	 * Has same limit as getPlatform().
 	 */
-	protected double getPlatformAngle() {
+	public double getPlatformAngle() {
 		return getPlatform().toBody().getTransform().getRotation();
 	}
 	

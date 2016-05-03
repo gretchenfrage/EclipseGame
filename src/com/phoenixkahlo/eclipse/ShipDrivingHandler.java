@@ -32,7 +32,7 @@ public class ShipDrivingHandler implements PlayerInputHandler {
 	private static final int ZOOM_OUT = KEY_F;
 	private static final int DISMOUNT = KEY_LSHIFT;
 	
-	private LocalPlayer player;
+	private Player player;
 	private Eclipse eclipse;
 	private Ship ship;
 	
@@ -41,7 +41,7 @@ public class ShipDrivingHandler implements PlayerInputHandler {
 	
 	private double shipPreAngle;
 	
-	public ShipDrivingHandler(LocalPlayer player, Eclipse eclipse, Ship ship) {
+	public ShipDrivingHandler(Player player, Eclipse eclipse, Ship ship) {
 		this.player = player;
 		this.eclipse = eclipse;
 		this.ship = ship;
@@ -83,13 +83,14 @@ public class ShipDrivingHandler implements PlayerInputHandler {
 
 	@Override
 	public void postUpdate(int delta) {
-		player.translate(ship.getWorldPoint(ship.getHelmPosition()).subtract(player.getWorldCenter()));
+		//player.translate(ship.getWorldPoint(ship.getHelmPosition()).subtract(player.getLocation()));
+		player.setLocation(ship.getWorldPoint(ship.getHelmPosition()));
 		player.setAngle(ship.getHelmAngle() + ship.getAngle());
 	}
 
 	@Override
 	public Vector2 getPerspectivePosition() {
-		return player.getWorldCenter();
+		return player.getLocation();
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 	private static final int ALIGN = KEY_T;
 	private static final int SPRINT = KEY_LSHIFT;
 	
-	private LocalPlayer player;
+	private Player player;
 	private Eclipse eclipse;
 	
 	private float perspectiveAngle = 0;
@@ -36,7 +36,10 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 	
 	private double platformPreUpdateAngle;
 	
-	public PlayerMovementHandler(LocalPlayer player, Eclipse eclipse) {
+	private boolean sprinting;
+	private Vector2 direction;
+	
+	public PlayerMovementHandler(Player player, Eclipse eclipse) {
 		this.player = player;
 		this.eclipse = eclipse;
 	}
@@ -48,9 +51,9 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 		
 		Input input = eclipse.getContainer().getInput();
 		
-		boolean sprinting = input.isKeyDown(SPRINT);
+		sprinting = input.isKeyDown(SPRINT);
 		
-		Vector2 direction = new Vector2(0, 0);
+		direction = new Vector2(0, 0);
 		if (input.isKeyDown(STRAFE_LEFT)) direction.x -= 1;
 		if (input.isKeyDown(STRAFE_RIGHT)) direction.x += 1;
 		if (input.isKeyDown(STRAFE_UP)) direction.y -= 1;
@@ -58,8 +61,8 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 		
 		direction.rotate(-eclipse.getTransformer().getAngle());
 		
-		player.setSprinting(sprinting);
-		player.setDirection(direction);
+		//player.setSprinting(sprinting);
+		//player.setDirection(direction);
 		
 		if (player.onPlatform() && input.isKeyDown(ALIGN))
 			eclipse.getWorld().addUpdatable(new PerspectiveAligner());
@@ -88,7 +91,7 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 	
 	@Override
 	public Vector2 getPerspectivePosition() {
-		return player.getWorldCenter();
+		return player.getLocation();
 	}
 	
 	@Override
