@@ -10,19 +10,25 @@ import org.newdawn.slick.Input;
 /**
  * A body that is rendered as an image at a certain angle and size.
  */
-public abstract class TextureBody extends Body implements Renderable {
+public abstract class TextureBody extends Body implements Entity, Renderable {
 
 	private double baseAngle = 0;
 	private Image texture;
 	private float textureWidth;
 	private float textureHeight;
 	
+	/**
+	 * Expected to be called in init() call of non-abstract subclass.
+	 */
 	protected void injectTexture(Image texture, float textureWidth, float textureHeight) {
 		this.texture = texture;
 		this.textureWidth = textureWidth;
 		this.textureHeight = textureHeight;
 	}
 	
+	/**
+	 * Rendering angle will always be offset by base angle.
+	 */
 	protected void setBaseAngle(double baseAngle) {
 		double angle = getAngle();
 		this.baseAngle = baseAngle;
@@ -46,25 +52,40 @@ public abstract class TextureBody extends Body implements Renderable {
 		g.rotate((float) center.x, (float) center.y, (float) -Math.toDegrees(getAngle() + baseAngle));
 	}	
 	
+	@Override
 	public double getAngle() {
 		return getTransform().getRotation();
 	}
 	
+	@Override
 	public void rotate(double theta) {
 		getTransform().rotate(theta, getWorldCenter());
 	}
 	
+	@Override
 	public void setAngle(double theta) {
 		rotate(theta - getAngle());
 	}
 	
+	@Override
 	public void pointTowards(Vector2 point) {
 		point.subtract(getWorldCenter());
 		setAngle(Math.atan2(point.y, point.x));
 	}
 	
+	@Override
 	public void pointTowardsMouse(Input input, PerspectiveTransformer transformer) {
 		pointTowards(transformer.screenToWorld(new Vector2(input.getMouseX(), input.getMouseY())));
+	}
+
+	@Override
+	public Vector2 getLocation() {
+		return getWorldCenter();
+	}
+	
+	@Override
+	public void setLocation(Vector2 location) {
+		translate(location.subtract(getLocation()));
 	}
 
 }

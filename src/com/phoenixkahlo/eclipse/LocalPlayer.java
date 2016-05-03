@@ -51,14 +51,4 @@ public class LocalPlayer extends WalkingBody implements Player {
 		return inputHandler.getPerspectiveAngle();
 	}
 
-	@Override
-	public Vector2 getLocation() {
-		return getWorldCenter();
-	}
-
-	@Override
-	public void setLocation(Vector2 location) {
-		translate(getLocation().subtract(location));
-	}
-
 }

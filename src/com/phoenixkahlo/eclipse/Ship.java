@@ -10,7 +10,7 @@ import org.dyn4j.geometry.Vector2;
 /**
  * Abstract implementation of a ship.
  */
-public abstract class Ship extends TextureBody implements Platform, WorldInitializer {
+public abstract class Ship extends TextureBody implements Platform, SelfInitializer {
 	
 	private Eclipse eclipse;
 	

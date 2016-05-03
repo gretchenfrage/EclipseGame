@@ -61,8 +61,8 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 		
 		direction.rotate(-eclipse.getTransformer().getAngle());
 		
-		//player.setSprinting(sprinting);
-		//player.setDirection(direction);
+		player.setSprinting(sprinting);
+		player.setDirection(direction);
 		
 		if (player.onPlatform() && input.isKeyDown(ALIGN))
 			eclipse.getWorld().addUpdatable(new PerspectiveAligner());
@@ -118,18 +118,18 @@ public class PlayerMovementHandler implements PlayerInputHandler {
 				return;
 			}
 			
-			float target = (float) -player.getPlatformAngle();
+			float targetAngle = (float) -player.getPlatformAngle();
 			perspectiveAngle %= Math.PI * 2;
 			
-			if (perspectiveAngle < target) {
+			if (perspectiveAngle < targetAngle) {
 				perspectiveAngle += ROTATION_SPEED * delta;
-				if (perspectiveAngle > target) perspectiveAngle = target;
+				if (perspectiveAngle > targetAngle) perspectiveAngle = targetAngle;
 			} else {
 				perspectiveAngle -= ROTATION_SPEED * delta;
-				if (perspectiveAngle < target) perspectiveAngle = target;
+				if (perspectiveAngle < targetAngle) perspectiveAngle = targetAngle;
 			}
 			
-			if (perspectiveAngle == target) {
+			if (perspectiveAngle == targetAngle) {
 				eclipse.getWorld().remove(this);
 				return;
 			}

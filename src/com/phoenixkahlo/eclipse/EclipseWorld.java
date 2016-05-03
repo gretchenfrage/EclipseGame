@@ -43,7 +43,7 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 		if (object instanceof Updatable) addUpdatable((Updatable) object);
 		if (object instanceof Useable) addUseable((Useable) object);
 		
-		if (object instanceof WorldInitializer) ((WorldInitializer) object).worldInit(this);
+		if (object instanceof SelfInitializer) ((SelfInitializer) object).worldInit(this);
 	}
 	
 	public void add(Object object) {

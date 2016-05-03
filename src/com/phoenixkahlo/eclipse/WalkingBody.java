@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
- * A body with walking/sprinting/thrusting movement.
+ * A body with walking/sprinting/thrusting movement. Has fixed angular velocity.
  */
 public class WalkingBody extends StandingBody {
 
