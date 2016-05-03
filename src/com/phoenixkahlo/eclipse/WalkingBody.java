@@ -7,9 +7,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
- * A human that can walk, sprint, and thrust around.
+ * A body with walking/sprinting/thrusting movement.
  */
-public class Human extends StandingBody {
+public class WalkingBody extends StandingBody {
 
 	private static final double RADIUS = 0.5;
 	private static final double WALK_VELOCITY = 12;
@@ -22,7 +22,7 @@ public class Human extends StandingBody {
 	private Vector2 direction = new Vector2(0, 0);
 	private boolean sprinting = false;
 	
-	public Human(EclipseWorld world) {
+	public WalkingBody(EclipseWorld world) {
 		super(world);
 		addFixture(new Circle(RADIUS));
 		setMass(MassType.FIXED_ANGULAR_VELOCITY);

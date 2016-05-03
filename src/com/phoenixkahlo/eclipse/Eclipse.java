@@ -13,6 +13,7 @@ import com.phoenixkahlo.eclipse.ships.BasicShip2;
 /**
  * The eclipse game.
  */
+@Deprecated
 public class Eclipse extends BasicGame {
 	
 	public static void main(String[] args) throws SlickException {

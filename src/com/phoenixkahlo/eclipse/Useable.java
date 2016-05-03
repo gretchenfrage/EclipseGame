@@ -9,6 +9,6 @@ public interface Useable {
 
 	boolean atLocation(Vector2 position);
 	
-	void use(LocalPlayer player);
+	void use(Player player);
 	
 }

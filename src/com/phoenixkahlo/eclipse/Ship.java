@@ -17,7 +17,7 @@ public abstract class Ship extends TextureBody implements Platform, WorldInitial
 	/**
 	 * Will hold a reference if someone is driving the ship, otherwise will be null.
 	 */
-	private LocalPlayer driver = null;
+	private Player driver = null;
 	
 	public Ship(Eclipse eclipse) {
 		this.eclipse = eclipse;
@@ -33,7 +33,7 @@ public abstract class Ship extends TextureBody implements Platform, WorldInitial
 			}
 			
 			@Override
-			public void use(LocalPlayer player) {
+			public void use(Player player) {
 				driver = player;
 				player.setInputHandler(new ShipDrivingHandler(player, eclipse, Ship.this));
 			}

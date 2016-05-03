@@ -14,7 +14,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 /**
- * The Eclipse world that holds all the dyn4j-Bodies, Platforms, Renderables, Updatables, Useables.
+ * The physics/rendering/behavior sand-box.
  */
 public class EclipseWorld extends World implements Renderable, Updatable {
 	
@@ -132,9 +132,9 @@ public class EclipseWorld extends World implements Renderable, Updatable {
 		return null;
 	}
 	
-	public void activateUseable(LocalPlayer player) {
+	public void activateUseable(Player player) {
 		for (int i = useables.size() - 1; i >= 0; i--) {
-			if (useables.get(i).atLocation(player.getWorldCenter())) {
+			if (useables.get(i).atLocation(player.getLocation())) {
 				useables.get(i).use(player);
 				return;
 			}

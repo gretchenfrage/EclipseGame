@@ -5,7 +5,8 @@ import org.dyn4j.geometry.Vector2;
 /**
  * The player controlled by this client.
  */
-public class LocalPlayer extends Human {
+@Deprecated
+public class LocalPlayer extends WalkingBody implements Player {
 	
 	private PlayerInputHandler defaultInputHandler;
 	private PlayerInputHandler inputHandler;
@@ -48,6 +49,11 @@ public class LocalPlayer extends Human {
 
 	public float getPerspectiveAngle() {
 		return inputHandler.getPerspectiveAngle();
+	}
+
+	@Override
+	public Vector2 getLocation() {
+		return getWorldCenter();
 	}
 
 }
