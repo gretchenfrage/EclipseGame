@@ -14,7 +14,7 @@ public class LocalPlayer extends WalkingBody implements Player {
 	public LocalPlayer(Eclipse eclipse) {
 		super(eclipse.getWorld());
 		
-		defaultInputHandler = new PlayerMovementHandler(this, eclipse);
+		defaultInputHandler = new PlayerWalkingHandlerOld(this, eclipse);
 		inputHandler = defaultInputHandler;
 	}
 	

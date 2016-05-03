@@ -16,6 +16,7 @@ import org.newdawn.slick.Input;
 /**
  * Drives a ship.
  */
+@Deprecated
 public class ShipDrivingHandler implements PlayerInputHandler {
 
 	private static final float PERSPECTIVE_SCALE_SPEED = 1.001f;
