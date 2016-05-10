@@ -1,18 +1,15 @@
 package com.phoenixkahlo.eclipse;
 
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 
-/**
- * A body that other bodies can stand on and move with, such as a ship.
- */
-public interface Platform {
+public interface Platform extends Entity {
 
-	/**
-	 * Whether the point at the position is resting on this Platform.
-	 */
-	boolean standingOn(Vector2 position);
+	void restingOn(Vector2 location);
 	
-	Body toBody();
+	/**
+	 * Takes the position start from the latest preUpdate, and
+	 * returns what force was applied to it by movement of the platform.
+	 */
+	Vector2 updateForce(Vector2 start);
 	
 }

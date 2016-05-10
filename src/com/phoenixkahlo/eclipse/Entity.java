@@ -2,9 +2,6 @@ package com.phoenixkahlo.eclipse;
 
 import org.dyn4j.geometry.Vector2;
 
-/**
- * An Eclipse entity which may be implemented through a Body.
- */
 public interface Entity {
 
 	Vector2 getLocation();
@@ -12,15 +9,19 @@ public interface Entity {
 	void setLocation(Vector2 location);
 	
 	double getAngle();
-
-	void rotate(double angle);
 	
 	void setAngle(double angle);
 	
-	public void pointTowards(Vector2 point);
+	Vector2 getLinearVelocity();
 	
-	void pointTowardsMouse(InputContext input, PerspectiveTransformer transformer);
+	void setLinearVelocity(Vector2 velocity);
 	
-	EclipseWorld getWorld();
+	double getAngularVelocity();
+	
+	void setAngularVelocity(double velocity);
+	
+	void giveForce(Vector2 force);
+	
+	void giveTorque(double torque);
 	
 }
